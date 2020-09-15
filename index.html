@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Pub Sub Pattern</title>
+</head>
+<body>
+<div class="container">
+  <header>
+    <span>Box Count:</span>
+    <span id="basketCount">0</span>
+  </header>
+  <div class="content">
+    <div class="item">
+      <div class="image">
+        <img src="https://dummyimage.com/150x150/000/fff" />
+      </div>
+      <div class="info">
+        <span>Product Name</span>
+      </div>
+      <div class="footer">
+        <button id="button">Add to basket</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<style>
+  .container{
+    display: flex;
+    flex-direction: column;
+  }
+  header{
+    flex: 1;
+    margin-bottom: 10px;
+  }
+  .content {
+    flex: 1
+  }
+  .item .image {
+    margin-bottom: 10px;
+  }
+  .item .info {
+    margin-bottom: 10px;
+  }
+</style>
+<script src="pubSub.js"></script>
+<script>
+  const button = document.getElementById("button");
+  const basketCount = document.getElementById("basketCount");
+  const pubsub = new PubSub();
+
+  button.addEventListener("click", function() {
+    const newCount = parseInt(basketCount.textContent) + 1;
+    pubsub.publish('showBasketCount', newCount);
+
+  });
+  pubsub.subscribe('showBasketCount', function(data) {
+    basketCount.innerHTML = data;
+  });
+</script>
+</html>
